@@ -1,7 +1,7 @@
-const OffersOptions = {
-  USERS: {
+const OfferOption = {
+  USER: {
     MAX: 10,
-    HAS_AVATARS: 8,
+    HAS_AVATAR: 8,
   },
   TITLES: [
     'Огромный дворец',
@@ -21,11 +21,11 @@ const OffersOptions = {
     'bungalow',
     'hotel',
   ],
-  ROOMS: {
+  ROOM: {
     MIN: 1,
     MAX: 10,
   },
-  GUESTS: {
+  GUEST: {
     MIN: 1,
     MAX: 15,
   },
@@ -72,16 +72,14 @@ const AvatarsOption = {
 const getRandomNumber = (min, max, decimalPlaces = 0) => {
   const lower = Math.min(Math.abs(min), Math.abs(max));
   const upper = Math.max(Math.abs(min), Math.abs(max));
-  const result = decimalPlaces ?
-    (Math.random() * (upper - lower) + lower).toFixed(decimalPlaces) :
-    Math.floor(Math.random() * (upper - lower + 1) + lower);
+  const result = decimalPlaces
+    ? (Math.random() * (upper - lower) + lower).toFixed(decimalPlaces)
+    : Math.floor(Math.random() * (upper - lower + 1) + lower);
 
-  return +result;
+  return Number(result);
 };
 
 const getRandomArrayElement = (array) => array[getRandomNumber(0, array.length - 1)];
-
-const getRandomObjectMinMax = (obj) => getRandomNumber(obj.MIN, obj.MAX);
 
 const shuffleArray = (array) => {
   const tempArray = array.slice();
@@ -95,17 +93,21 @@ const shuffleArray = (array) => {
 
 const cropArray = (array) => array.slice(0, getRandomNumber(1, array.length));
 
-const getAvatar = (index) => {
+const avatarsIdArray = new Array(OfferOption.USER.MAX).fill(null).map((element,index) => index + 1);
+const avatarsIdArrayShuffle = shuffleArray(avatarsIdArray);
+
+const getAvatar = () => {
   const imagePath = AvatarsOption.AVATARS_PATH;
-  const imagePartName = (index <= OffersOptions.USERS.HAS_AVATARS) ?
-    'user' :
-    'default';
+  const id = avatarsIdArrayShuffle.pop();
+  const imagePartName = (id <= OfferOption.USER.HAS_AVATAR)
+    ? 'user'
+    : 'default';
   const prefix = '0';
   let imageFullName;
-  if (index <= OffersOptions.USERS.HAS_AVATARS) {
-    imageFullName = index < 10 ?
-      imagePath + imagePartName + prefix + index :
-      imagePath + imagePartName + index;
+  if (id <= OfferOption.USER.HAS_AVATAR) {
+    imageFullName = id < 10
+      ? imagePath + imagePartName + prefix + id
+      : imagePath + imagePartName + id;
   } else {
     imageFullName = imagePath + imagePartName;
   }
@@ -117,35 +119,38 @@ const getAvatar = (index) => {
 
 const getFeatures = (array) => cropArray(shuffleArray(array));
 
-const getLocation = () => ({ lat: getRandomNumber(OffersOptions.LOCATION.LATITUDE.MIN, OffersOptions.LOCATION.LATITUDE.MAX, OffersOptions.LOCATION.PRECISSION), lng: getRandomNumber(OffersOptions.LOCATION.LONGITUDE.MIN, OffersOptions.LOCATION.LONGITUDE.MAX, OffersOptions.LOCATION.PRECISSION) });
+const getLocation = () => ({
+  lat: getRandomNumber(OfferOption.LOCATION.LATITUDE.MIN, OfferOption.LOCATION.LATITUDE.MAX, OfferOption.LOCATION.PRECISSION),
+  lng: getRandomNumber(OfferOption.LOCATION.LONGITUDE.MIN, OfferOption.LOCATION.LONGITUDE.MAX, OfferOption.LOCATION.PRECISSION),
+});
 
-const createAd = (index) => {
+const createAd = () => {
   const adObj = {
-    author: getAvatar(index),
+    author: getAvatar(),
     offer: {
-      title : getRandomArrayElement(OffersOptions.TITLES),
-      price : getRandomObjectMinMax(OffersOptions.PRICE),
-      type : getRandomArrayElement(OffersOptions.TYPES),
-      rooms : getRandomObjectMinMax(OffersOptions.ROOMS),
-      guests : getRandomObjectMinMax(OffersOptions.GUESTS),
-      checkin : getRandomArrayElement(OffersOptions.CHECKIN),
-      checkout : getRandomArrayElement(OffersOptions.CHECKOUT),
-      features : getFeatures(OffersOptions.FEATURES),
-      photos : cropArray(OffersOptions.PHOTOS),
+      title: getRandomArrayElement(OfferOption.TITLES),
+      price: getRandomNumber(OfferOption.PRICE.MIN, OfferOption.PRICE.MAX),
+      type: getRandomArrayElement(OfferOption.TYPES),
+      rooms: getRandomNumber(OfferOption.ROOM.MIN, OfferOption.ROOM.MAX),
+      guests: getRandomNumber(OfferOption.GUEST.MIN, OfferOption.GUEST.MAX),
+      checkin: getRandomArrayElement(OfferOption.CHECKIN),
+      checkout: getRandomArrayElement(OfferOption.CHECKOUT),
+      features: getFeatures(OfferOption.FEATURES),
+      photos: cropArray(OfferOption.PHOTOS),
+      getDescription (){
+        this.description = this.title;
+      },
     },
     location: getLocation(),
   };
-
-  adObj.offer.desciption = adObj.offer.title;
+  adObj.offer.getDescription();
   adObj.offer.address = `${adObj.location.lat}, ${adObj.location.lng}`;
 
   return adObj;
 };
 
-const similarAds = new Array(OffersOptions.USERS.MAX).fill(null).map((element, index) => createAd(index));
+const similarAds = new Array(OfferOption.USER.MAX).fill(null).map(() =>
+  createAd());
 
 similarAds;
-
-getRandomNumber(1, 10);
 getRandomNumber(0, 10, 5);
-

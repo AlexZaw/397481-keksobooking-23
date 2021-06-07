@@ -47,6 +47,13 @@ const OfferOption = {
     'elevator',
     'conditioner',
   ],
+  DESCRIPTIONS: [
+    ' Уютная, милая, светлая комната, в которой каждая мелочь подобрана под твой любимый цвет, форму или материал.',
+    'Тот уголок, где, казалось бы, ты мог находиться целую вечность.',
+    'Коричневатый паркет и  мягкий белоснежный коврик, просторный диван серого цвета, рабочий стол небольших размеров',
+    'Пол - фиолетовый, с разными узорами, стены лиловые, а потолок - розовый, с которого свисает люстра в виде трёх цветов.',
+    'Крошечная клетушка, шагов в шесть длиной, имеет самый жалкий вид',
+  ],
   PHOTOS: [
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
@@ -124,10 +131,12 @@ const getLocation = () => ({
 });
 
 const createAd = () => {
+  const location = getLocation();
   const adObj = {
     author: getAvatar(),
     offer: {
       title: getRandomArrayElement(OfferOption.TITLES),
+      address: `${location.lat}, ${location.lng}`,
       price: getRandomNumber(OfferOption.PRICE.MIN, OfferOption.PRICE.MAX),
       type: getRandomArrayElement(OfferOption.TYPES),
       rooms: getRandomNumber(OfferOption.ROOM.MIN, OfferOption.ROOM.MAX),
@@ -135,15 +144,11 @@ const createAd = () => {
       checkin: getRandomArrayElement(OfferOption.CHECKIN),
       checkout: getRandomArrayElement(OfferOption.CHECKOUT),
       features: getFeatures(OfferOption.FEATURES),
+      description : getRandomArrayElement(OfferOption.DESCRIPTIONS),
       photos: cropArray(OfferOption.PHOTOS),
-      getDescription() {
-        this.description = this.title;
-      },
     },
-    location: getLocation(),
+    location,
   };
-  adObj.offer.getDescription();
-  adObj.offer.address = `${adObj.location.lat}, ${adObj.location.lng}`;
 
   return adObj;
 };

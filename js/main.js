@@ -93,7 +93,7 @@ const shuffleArray = (array) => {
 
 const cropArray = (array) => array.slice(0, getRandomNumber(1, array.length));
 
-const avatarsIdArray = new Array(OfferOption.USER.MAX).fill(null).map((element,index) => index + 1);
+const avatarsIdArray = new Array(OfferOption.USER.MAX).fill(null).map((element, index) => index + 1);
 const avatarsIdArrayShuffle = shuffleArray(avatarsIdArray);
 
 const getAvatar = () => {
@@ -102,15 +102,10 @@ const getAvatar = () => {
   const imagePartName = (id <= OfferOption.USER.HAS_AVATAR)
     ? 'user'
     : 'default';
-  const prefix = '0';
-  let imageFullName;
-  if (id <= OfferOption.USER.HAS_AVATAR) {
-    imageFullName = id < 10
-      ? imagePath + imagePartName + prefix + id
-      : imagePath + imagePartName + id;
-  } else {
-    imageFullName = imagePath + imagePartName;
-  }
+
+  const imageFullName = (id <= OfferOption.USER.HAS_AVATAR)
+    ? imagePath + imagePartName + `${id}`.padStart(2, '0')
+    : imagePath + imagePartName;
 
   return {
     avatar: `${imageFullName}.png`,
@@ -120,8 +115,12 @@ const getAvatar = () => {
 const getFeatures = (array) => cropArray(shuffleArray(array));
 
 const getLocation = () => ({
-  lat: getRandomNumber(OfferOption.LOCATION.LATITUDE.MIN, OfferOption.LOCATION.LATITUDE.MAX, OfferOption.LOCATION.PRECISSION),
-  lng: getRandomNumber(OfferOption.LOCATION.LONGITUDE.MIN, OfferOption.LOCATION.LONGITUDE.MAX, OfferOption.LOCATION.PRECISSION),
+  lat: getRandomNumber(OfferOption.LOCATION.LATITUDE.MIN,
+    OfferOption.LOCATION.LATITUDE.MAX,
+    OfferOption.LOCATION.PRECISSION),
+  lng: getRandomNumber(OfferOption.LOCATION.LONGITUDE.MIN,
+    OfferOption.LOCATION.LONGITUDE.MAX,
+    OfferOption.LOCATION.PRECISSION),
 });
 
 const createAd = () => {
@@ -137,7 +136,7 @@ const createAd = () => {
       checkout: getRandomArrayElement(OfferOption.CHECKOUT),
       features: getFeatures(OfferOption.FEATURES),
       photos: cropArray(OfferOption.PHOTOS),
-      getDescription (){
+      getDescription() {
         this.description = this.title;
       },
     },
@@ -149,8 +148,7 @@ const createAd = () => {
   return adObj;
 };
 
-const similarAds = new Array(OfferOption.USER.MAX).fill(null).map(() =>
-  createAd());
+const similarAds = new Array(OfferOption.USER.MAX).fill(null).map(createAd);
 
 similarAds;
 getRandomNumber(0, 10, 5);

@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomArrayElement, shuffleArray, cropArray} from './utils.js';
+import { getRandomNumber, getRandomArrayElement, shuffleArray, cropArray } from './utils.js';
 
 const OfferOption = {
   USER: {
@@ -59,7 +59,7 @@ const OfferOption = {
   PHOTOS: [
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg.',
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
   ],
   LOCATION: {
     LATITUDE: {
@@ -92,26 +92,27 @@ const getAvatar = () => {
     ? imagePath + imagePartName + `${id}`.padStart(2, '0')
     : imagePath + imagePartName;
 
-  return {
-    avatar: `${imageFullName}.png`,
-  };
+  return `${imageFullName}.png`;
 };
 
 const getFeatures = (array) => cropArray(shuffleArray(array));
 
-const getLocation = () => ({
-  lat: getRandomNumber(OfferOption.LOCATION.LATITUDE.MIN,
-    OfferOption.LOCATION.LATITUDE.MAX,
-    OfferOption.LOCATION.PRECISSION),
-  lng: getRandomNumber(OfferOption.LOCATION.LONGITUDE.MIN,
-    OfferOption.LOCATION.LONGITUDE.MAX,
-    OfferOption.LOCATION.PRECISSION),
-});
+const getLocation = (latLng) => {
+  const axis = latLng.toUpperCase();
+  return getRandomNumber(OfferOption.LOCATION[axis].MIN,
+    OfferOption.LOCATION[axis].MAX,
+    OfferOption.LOCATION.PRECISSION);
+};
 
 const createAd = () => {
-  const location = getLocation();
+  const location = {
+    lat: getLocation('latitude'),
+    lng: getLocation('longitude'),
+  };
   const adObj = {
-    author: getAvatar(),
+    author: {
+      avatar: getAvatar(),
+    },
     offer: {
       title: getRandomArrayElement(OfferOption.TITLES),
       address: `${location.lat}, ${location.lng}`,
@@ -122,7 +123,7 @@ const createAd = () => {
       checkin: getRandomArrayElement(OfferOption.CHECKIN),
       checkout: getRandomArrayElement(OfferOption.CHECKOUT),
       features: getFeatures(OfferOption.FEATURES),
-      description : getRandomArrayElement(OfferOption.DESCRIPTIONS),
+      description: getRandomArrayElement(OfferOption.DESCRIPTIONS),
       photos: cropArray(OfferOption.PHOTOS),
     },
     location,
@@ -132,4 +133,4 @@ const createAd = () => {
 };
 const createSimilarAds = (adCount = OfferOption.USER.MAX) => new Array(adCount).fill(null).map(createAd);
 
-export {createSimilarAds};
+export { createSimilarAds };

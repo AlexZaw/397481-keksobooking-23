@@ -1,4 +1,5 @@
-import {createSimilarAds} from './create-similar-ads.js';
+import {createAdsElements} from './create-ads-elements.js';
+const outputAdElement = document.querySelector('#map-canvas');
 
-const similarAds = createSimilarAds(10);
-similarAds;
+const adsElementsArray = createAdsElements();
+outputAdElement.append(adsElementsArray[0]);

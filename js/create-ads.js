@@ -19,9 +19,10 @@ const fillFeatures = (currentAdObj, adElement) => {
     const presentFeature = featuresListElement.querySelector(`[class$=${modifier}`);
     adFeaturesFragment.append(presentFeature);
   });
+  featuresListElement.textContent = '';
 
   adFeaturesFragment.children.length
-    ? (featuresListElement.textContent = '', featuresListElement.append(adFeaturesFragment))
+    ? featuresListElement.append(adFeaturesFragment)
     : featuresListElement.remove();
 };
 
@@ -36,14 +37,13 @@ const fillPhotos = (currentAdObj, adElement) => {
     photosListElement.append(photo);
   });
 
-  !(photosListElement.children.length)
-    ? photosListElement.remove()
-    : false;
+  photosListElement.children.length || photosListElement.remove();
 };
 
-const isValue = (value, element) => value ? value : element.remove();
 
-const createAdsElements = () => {
+const isValue = (value, element) => value || element.remove();
+
+const createAds = () => {
   const adsElements = similarAds.map((currentAdObj) => {
     const adElement = similarAdTemplate.cloneNode(true);
     const adPrice = adElement.querySelector('.popup__text--price');
@@ -75,4 +75,4 @@ const createAdsElements = () => {
   return adsElements;
 };
 
-export { createAdsElements };
+export { createAds };

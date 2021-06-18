@@ -1,5 +1,7 @@
-import {createAdsElements} from './create-ads-elements.js';
-const outputAdElement = document.querySelector('#map-canvas');
+import {createAds} from './create-ads.js';
+import { enablePage } from './map.js';
+const map = document.querySelector('#map-canvas');
+const ads = createAds();
 
-const adsElementsArray = createAdsElements();
-outputAdElement.append(adsElementsArray[0]);
+enablePage();
+map.append(ads[0]);

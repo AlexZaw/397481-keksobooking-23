@@ -1,4 +1,4 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/df25c95d258abb9b0422/maintainability)](https://codeclimate.com/github/AlexZaw/397481-keksobooking-23/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/4a72b19790d8eae299f6/maintainability)](https://codeclimate.com/github/AlexZaw/397481-keksobooking-23/maintainability)
 # Личный проект «Кексобукинг»
 
 * Студент: [Александр Завгородний](https://up.htmlacademy.ru/javascript/23/user/397481).

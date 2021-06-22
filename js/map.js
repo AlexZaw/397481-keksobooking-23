@@ -15,5 +15,4 @@ const enablePage = () =>{
   [...filterForm.elements].forEach((element) => element.removeAttribute('disabled'));
 };
 
-disablePage();
-export { enablePage };
+export { disablePage, enablePage };

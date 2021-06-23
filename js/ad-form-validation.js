@@ -73,11 +73,9 @@ const onPriceChange = () => {
   const minAdPrice = Number(adPrice.getAttribute('min'));
   const currentPrice = Number(adPrice.value);
   if (currentPrice > maxAdPrice) {
-    adPrice.setCustomValidity(`Цена должна быть меньше
-    ${maxAdPrice.toLocaleString()}`);
+    adPrice.setCustomValidity(`Цена должна быть меньше ${maxAdPrice.toLocaleString()}`);
   } else if (currentPrice < minAdPrice) {
-    adPrice.setCustomValidity(`Цена должна быть больше
-    ${minAdPrice.toLocaleString()}`);
+    adPrice.setCustomValidity(`Цена должна быть больше ${minAdPrice.toLocaleString()}`);
   }
   else {
     adPrice.setCustomValidity('');
@@ -102,10 +100,12 @@ const onCapacityChange = (evt) => {
   adCapacity.reportValidity() && unMarkInvalidFormFields();
 };
 
-const onTimeChage = (event) => {
-  event.target === adTimeIn
-    ? adTimeOut.value = adTimeIn.value
-    : adTimeIn.value = adTimeOut.value;
+const onTimeChage = (evt) => {
+  if(evt.target === adTimeIn){
+    adTimeOut.value = adTimeIn.value;
+  } else{
+    adTimeIn.value = adTimeOut.value;
+  }
 };
 
 const initAdFormValidation = () => {

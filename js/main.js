@@ -1,10 +1,9 @@
-import { createAds } from './create-ads.js';
-import { disablePage, enablePage } from './map.js';
+import './form-control.js';
+import { createSimilarAds } from './create-similar-ads.js';
 import { initAdFormValidation } from './ad-form-validation.js';
-const map = document.querySelector('#map-canvas');
-const ads = createAds();
+import { createMarkersGroup } from './map.js';
 
-disablePage();
-enablePage();
-map.append(ads[0]);
+const similarAds = createSimilarAds();
+
+createMarkersGroup(similarAds);
 initAdFormValidation();

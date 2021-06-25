@@ -104,7 +104,7 @@ const getLocation = (latLng) => {
     OfferOption.LOCATION.PRECISSION);
 };
 
-const createAd = () => {
+const createMockAd = () => {
   const location = {
     lat: getLocation('latitude'),
     lng: getLocation('longitude'),
@@ -131,6 +131,6 @@ const createAd = () => {
 
   return adObj;
 };
-const createSimilarAds = (adCount = OfferOption.USER.MAX) => new Array(adCount).fill(null).map(createAd);
+const createSimilarAds = (adCount = OfferOption.USER.MAX) => new Array(adCount).fill(null).map(createMockAd);
 
 export { createSimilarAds };

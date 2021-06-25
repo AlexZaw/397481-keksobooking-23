@@ -17,7 +17,6 @@ const adForm = document.querySelector('.ad-form');
 const adTitle = adForm.title;
 const adPrice = adForm.price;
 const adDwellingType = adForm.type;
-const adAddress = adForm.address;
 const adRoomQuantity = adForm.rooms;
 const adCapacity = adForm.capacity;
 const minAdTitleLength = adTitle.getAttribute('minlength');
@@ -62,22 +61,13 @@ const onTitleChange = () => {
   adTitle.reportValidity() && unMarkInvalidFormFields();
 };
 
-const onAddressChange = () => {
-  if (!adAddress.validity.valueMissing) {
-    adAddress.setCustomValidity('');
-  }
-  adAddress.reportValidity() && unMarkInvalidFormFields();
-};
-
 const onPriceChange = () => {
   const minAdPrice = Number(adPrice.getAttribute('min'));
   const currentPrice = Number(adPrice.value);
   if (currentPrice > maxAdPrice) {
-    adPrice.setCustomValidity(`Цена должна быть меньше
-    ${maxAdPrice.toLocaleString()}`);
+    adPrice.setCustomValidity(`Цена должна быть меньше ${maxAdPrice.toLocaleString()}`);
   } else if (currentPrice < minAdPrice) {
-    adPrice.setCustomValidity(`Цена должна быть больше
-    ${minAdPrice.toLocaleString()}`);
+    adPrice.setCustomValidity(`Цена должна быть больше ${minAdPrice.toLocaleString()}`);
   }
   else {
     adPrice.setCustomValidity('');
@@ -102,16 +92,18 @@ const onCapacityChange = (evt) => {
   adCapacity.reportValidity() && unMarkInvalidFormFields();
 };
 
-const onTimeChage = (event) => {
-  event.target === adTimeIn
-    ? adTimeOut.value = adTimeIn.value
-    : adTimeIn.value = adTimeOut.value;
+const onTimeChage = (evt) => {
+  if(evt.target === adTimeIn){
+    adTimeOut.value = adTimeIn.value;
+  }
+  if(evt.target === adTimeOut){
+    adTimeIn.value = adTimeOut.value;
+  }
 };
 
 const initAdFormValidation = () => {
   adForm.addEventListener('invalid', markInvalidFormFields, true);
   adTitle.addEventListener('input', onTitleChange);
-  adAddress.addEventListener('input', onAddressChange);
   adPrice.addEventListener('input', onPriceChange);
   adDwellingType.addEventListener('change', onDwellingChange);
   adCapacity.addEventListener('change', onCapacityChange);

@@ -20,6 +20,4 @@ const setAddress = ({lat, lng}) => {
   adAddress.value = `${Number(lat.toFixed(5))}, ${Number(lng.toFixed(5))}`;
 };
 
-disableForm();
-
-export { enableForm, setAddress };
+export { disableForm, enableForm, setAddress };

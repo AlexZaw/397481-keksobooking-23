@@ -1,38 +1,57 @@
 import { enableForm, setAddress } from './form-control.js';
 import { createAd } from './create-ads.js';
 
-const DEFAULT_COORDS = {
-  lat: 35.675,
-  lng: 139.75,
+const MapOption = {
+  DEFAULT_COORDS: {
+    lat: 35.675,
+    lng: 139.75,
+  },
+  TILE: {
+    URL: 'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png',
+    ATTR: `&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>,
+    &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy;
+    <a href="http://openstreetmap.org">OpenStreetMap</a> contributors`,
+  },
+  MARKER: {
+    ICON_PATH: '../img/',
+    MAIN_IMG: 'main-pin.svg',
+    DEFAULT_IMG: 'pin.svg',
+  },
+};
+const map = L.map('map-canvas');
+
+const initMap = () => {
+  map.on('load', () => {
+    enableForm();
+    setAddress(MapOption.DEFAULT_COORDS);
+  })
+    .setView(
+      {
+        lat: MapOption.DEFAULT_COORDS.lat,
+        lng: MapOption.DEFAULT_COORDS.lng,
+      }, 13);
 };
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    enableForm();
-    setAddress(DEFAULT_COORDS);
-  })
-  .setView(
-    {
-      ...DEFAULT_COORDS,
-    }, 13);
-
 L.tileLayer(
-  'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png',
+  MapOption.TILE.URL,
   {
-    attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+    attribution: MapOption.TILE.ATTR,
   },
 ).addTo(map);
 
 const mainMarkerIcon = L.icon(
   {
-    iconUrl: '../img/main-pin.svg',
+    iconUrl: `${MapOption.MARKER.ICON_PATH}${MapOption.MARKER.MAIN_IMG}`,
+
+    // iconUrl: `${MapOption.MARKER.ICON_PATH}main-pin.svg`,
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
 
 const mainMarker = L.marker(
   {
-    ...DEFAULT_COORDS,
+    lat: MapOption.DEFAULT_COORDS.lat,
+    lng: MapOption.DEFAULT_COORDS.lng,
   },
   {
     icon: mainMarkerIcon,
@@ -52,7 +71,7 @@ const createMarker = (currentAd) => {
   const { lat, lng } = currentAd.location;
   const icon = L.icon(
     {
-      iconUrl: '../img/pin.svg',
+      iconUrl: `${MapOption.MARKER.ICON_PATH}${MapOption.MARKER.DEFAULT_IMG}`,
       iconSize: [40, 40],
       iconAnchor: [20, 40],
     },
@@ -77,4 +96,4 @@ const createMarkersGroup = (similarAds) => {
   });
 };
 
-export { createMarkersGroup };
+export { initMap, createMarkersGroup };

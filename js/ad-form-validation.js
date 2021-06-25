@@ -95,7 +95,8 @@ const onCapacityChange = (evt) => {
 const onTimeChage = (evt) => {
   if(evt.target === adTimeIn){
     adTimeOut.value = adTimeIn.value;
-  } else{
+  }
+  if(evt.target === adTimeOut){
     adTimeIn.value = adTimeOut.value;
   }
 };

@@ -101,7 +101,7 @@ const onTimeChage = (evt) => {
   }
 };
 
-const initAdFormValidation = () => {
+const initAdFormValidation = async () => {
   adForm.addEventListener('invalid', markInvalidFormFields, true);
   adTitle.addEventListener('input', onTitleChange);
   adPrice.addEventListener('input', onPriceChange);
@@ -114,4 +114,4 @@ const initAdFormValidation = () => {
   adForm.addEventListener('submit', onCapacityChange, { once: true });
 };
 
-export { initAdFormValidation };
+export { initAdFormValidation, onDwellingChange };

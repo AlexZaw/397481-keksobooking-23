@@ -5,6 +5,7 @@ const typeOfDwelling = {
   bungalow: 'Бунгало',
   hotel: 'Отель',
 };
+const defaultAvatar = './img/avatars/default.png';
 const similarAdTemplate = document.querySelector('#card').content
   .querySelector('.popup');
 
@@ -55,7 +56,7 @@ const createAd = (currentAdObj) => {
   adAddress.textContent = isValue(currentAdObj.offer.address, adAddress);
   adDwellingType.textContent = typeOfDwelling[currentAdObj.offer.type];
   adDescription.textContent = isValue(currentAdObj.offer.description, adDescription);
-  adAvatar.src = currentAdObj.author.avatar;
+  adAvatar.src = currentAdObj.author.avatar || defaultAvatar;
 
   adPrice.textContent = `${isValue(currentAdObj.offer.price, adPrice)} `;
   if (adPrice.textContent) {

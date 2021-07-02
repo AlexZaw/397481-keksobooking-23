@@ -1,5 +1,6 @@
-import { enableForm, setAddress } from './form-control.js';
+import { setAddress } from './form-control.js';
 import { createAd } from './create-ads.js';
+import { onDwellingChange } from './ad-form-validation.js';
 
 const MapOption = {
   DEFAULT_COORDS: {
@@ -13,17 +14,18 @@ const MapOption = {
     <a href="http://openstreetmap.org">OpenStreetMap</a> contributors`,
   },
   MARKER: {
-    ICON_PATH: '../img/',
+    ICON_PATH: './img/',
     MAIN_IMG: 'main-pin.svg',
     DEFAULT_IMG: 'pin.svg',
   },
 };
 const map = L.map('map-canvas');
 
-const initMap = () => {
+const initMap = async () => {
+  // return Promise.reject();
   map.on('load', () => {
-    enableForm();
     setAddress(MapOption.DEFAULT_COORDS);
+    onDwellingChange();
   })
     .setView(
       {
@@ -42,8 +44,6 @@ L.tileLayer(
 const mainMarkerIcon = L.icon(
   {
     iconUrl: `${MapOption.MARKER.ICON_PATH}${MapOption.MARKER.MAIN_IMG}`,
-
-    // iconUrl: `${MapOption.MARKER.ICON_PATH}main-pin.svg`,
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
@@ -61,9 +61,22 @@ const mainMarker = L.marker(
 );
 
 mainMarker.addTo(map);
-mainMarker.on('dragend', (evt) => {
+mainMarker.on('move', (evt) => {
   setAddress(evt.target.getLatLng());
 });
+
+const resetMap = () => {
+  map.setView(
+    {
+      lat: MapOption.DEFAULT_COORDS.lat,
+      lng: MapOption.DEFAULT_COORDS.lng,
+    }, 13);
+  mainMarker.setLatLng(
+    [MapOption.DEFAULT_COORDS.lat,
+      MapOption.DEFAULT_COORDS.lng,
+    ]);
+  setAddress(MapOption.DEFAULT_COORDS);
+};
 
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -95,5 +108,4 @@ const createMarkersGroup = (similarAds) => {
     createMarker(currentAd);
   });
 };
-
-export { initMap, createMarkersGroup };
+export { initMap, resetMap, createMarkersGroup };

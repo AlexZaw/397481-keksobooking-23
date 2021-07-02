@@ -1,25 +1,27 @@
-const getRandomNumber = (min, max, decimalPlaces = 0) => {
-  const lower = Math.min(Math.abs(min), Math.abs(max));
-  const upper = Math.max(Math.abs(min), Math.abs(max));
-  const result = decimalPlaces
-    ? (Math.random() * (upper - lower) + lower).toFixed(decimalPlaces)
-    : Math.floor(Math.random() * (upper - lower + 1) + lower);
+const ALERT_SHOW_TIME = 5000;
+const showAlert = (state, message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 1000;
+  alertContainer.style.position = 'fixed';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = state ? 'green' : 'red';
 
-  return Number(result);
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
+const isEscKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-const getRandomArrayElement = (array) => array[getRandomNumber(0, array.length - 1)];
+const recieveFailed = () => showAlert(
+  false, 'Не удалось получить данные. Попробуйте обновить страницу');
 
-const shuffleArray = (array) => {
-  const tempArray = array.slice();
-  for (let i = 0; i < tempArray.length; i++) {
-    const random = getRandomNumber(0, tempArray.length - 1);
-    [tempArray[i], tempArray[random]] = [tempArray[random], tempArray[i]];
-  }
-
-  return tempArray;
-};
-
-const cropArray = (array) => array.slice(0, getRandomNumber(1, array.length));
-
-export {getRandomNumber, getRandomArrayElement, shuffleArray, cropArray};
+export {recieveFailed, isEscKey };

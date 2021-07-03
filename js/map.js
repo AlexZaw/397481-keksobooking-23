@@ -23,6 +23,7 @@ const map = L.map('map-canvas');
 
 const initMap = async () => {
   // return Promise.reject();
+
   map.on('load', () => {
     setAddress(MapOption.DEFAULT_COORDS);
     onDwellingChange();

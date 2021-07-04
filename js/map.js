@@ -1,6 +1,7 @@
 import { setAddress } from './form-control.js';
 import { createAd } from './create-ads.js';
 import { onDwellingChange } from './ad-form-validation.js';
+import { mapFilter } from './filters.js';
 
 const MapOption = {
   DEFAULT_COORDS: {
@@ -22,8 +23,6 @@ const MapOption = {
 const map = L.map('map-canvas');
 
 const initMap = async () => {
-  // return Promise.reject();
-
   map.on('load', () => {
     setAddress(MapOption.DEFAULT_COORDS);
     onDwellingChange();
@@ -60,7 +59,6 @@ const mainMarker = L.marker(
     autoPan: true,
   },
 );
-
 mainMarker.addTo(map);
 mainMarker.on('move', (evt) => {
   setAddress(evt.target.getLatLng());
@@ -99,14 +97,17 @@ const createMarker = (currentAd) => {
       icon,
     },
   );
-
   marker.addTo(markerGroup)
     .bindPopup(createAd(currentAd));
 };
 
 const createMarkersGroup = (similarAds) => {
-  similarAds.forEach((currentAd) => {
+  markerGroup.clearLayers();
+  const filteredAds = mapFilter(similarAds);
+  filteredAds.forEach((currentAd) => {
     createMarker(currentAd);
   });
 };
-export { initMap, resetMap, createMarkersGroup };
+
+export { initMap, resetMap, createMarkersGroup};
+

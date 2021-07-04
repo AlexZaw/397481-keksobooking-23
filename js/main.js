@@ -1,17 +1,17 @@
 import { formControl } from './form-control.js';
 import { initAdFormValidation } from './ad-form-validation.js';
-import { createMarkersGroup, initMap } from './map.js';
+import { createMarkersGroup, initMap} from './map.js';
 import { getData } from './api.js';
 import { errorPopup, showPopup, successPopup, dataError } from './popup.js';
+import { setFilterFormChange } from './filters.js';
 const { disableForms, enableAdForm, enableFilterForm, onAdFormSubmit } = formControl;
 
 disableForms();
 
-const SIMILAR_ADS_QUANTITY = 10;
-
 const getSimilarAds = new Promise((onSucces) => {
   getData((adsList) => {
-    createMarkersGroup(adsList.slice(0, SIMILAR_ADS_QUANTITY));
+    createMarkersGroup(adsList);
+    setFilterFormChange(()=>createMarkersGroup(adsList));
     onSucces();
   }, showPopup(dataError));
 });

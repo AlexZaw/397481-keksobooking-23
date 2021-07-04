@@ -1,10 +1,11 @@
 import { formControl } from './form-control.js';
-import { initAdFormValidation } from './ad-form-validation.js';
+import { formValidation } from './ad-form-validation.js';
 import { createMarkersGroup, initMap} from './map.js';
 import { getData } from './api.js';
 import { errorPopup, showPopup, successPopup, dataError } from './popup.js';
 import { setFilterFormChange } from './filters.js';
 const { disableForms, enableAdForm, enableFilterForm, onAdFormSubmit } = formControl;
+const {initAdFormValidation} = formValidation;
 
 disableForms();
 

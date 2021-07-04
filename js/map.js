@@ -1,8 +1,8 @@
 import { setAddress } from './form-control.js';
 import { createAd } from './create-ads.js';
-import { onDwellingChange } from './ad-form-validation.js';
+import { formValidation } from './ad-form-validation.js';
 import { mapFilter } from './filters.js';
-
+const { onDwellingChange } = formValidation;
 const MapOption = {
   DEFAULT_COORDS: {
     lat: 35.675,

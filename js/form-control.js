@@ -1,5 +1,6 @@
 import { onDwellingChange } from './ad-form-validation.js';
 import { sendData } from './api.js';
+import { uploadImage } from './file-upload.js';
 import { resetMap } from './map.js';
 const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
@@ -8,6 +9,8 @@ const resetFormButton = adForm.querySelector('.ad-form__reset');
 const avatarPreview = document.querySelector('.ad-form-header__preview');
 const avatarPreviewDefault = avatarPreview.querySelector('img').cloneNode(true);
 const phothoPreview = document.querySelector('.ad-form__photo');
+const avatarChooser = document.querySelector('#avatar');
+const photoChooser = document.querySelector('#images');
 
 const disableForms = () => {
   adForm.classList.add('ad-form--disabled');
@@ -19,6 +22,8 @@ const disableForms = () => {
 const enableFilterForm = () => {
   filterForm.classList.remove('map__filters--disabled');
   [...filterForm.elements].forEach((element) => element.removeAttribute('disabled'));
+  avatarChooser.addEventListener('change', uploadImage);
+  photoChooser.addEventListener('change', uploadImage);
 };
 
 const enableAdForm = () => {

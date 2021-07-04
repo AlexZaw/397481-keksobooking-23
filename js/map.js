@@ -9,10 +9,8 @@ const MapOption = {
     lng: 139.75,
   },
   TILE: {
-    URL: 'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png',
-    ATTR: `&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>,
-    &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy;
-    <a href="http://openstreetmap.org">OpenStreetMap</a> contributors`,
+    URL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    ATTR: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
   MARKER: {
     ICON_PATH: './img/',
@@ -20,6 +18,7 @@ const MapOption = {
     DEFAULT_IMG: 'pin.svg',
   },
 };
+
 const map = L.map('map-canvas');
 
 const initMap = async () => {

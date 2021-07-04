@@ -1,6 +1,5 @@
 import { resetForms } from './form-control.js';
 import { resetMap } from './map.js';
-
 const SERVER_URL = 'https://23.javascript.pages.academy/keksobooking';
 
 const getData = (onSucces, onFail) => {

@@ -1,5 +1,3 @@
-const avatarChooser = document.querySelector('#avatar');
-const photoChooser = document.querySelector('#images');
 const avatarPreview = document.querySelector('.ad-form-header__preview');
 const phothoPreview = document.querySelector('.ad-form__photo');
 const imageTemplate = avatarPreview.querySelector('img');
@@ -9,13 +7,11 @@ const ImageOption ={
     alt: 'Аватар пользователя',
     preview: avatarPreview,
   },
-
   images:{
     alt:'Фото жилья',
     preview: phothoPreview,
   },
 };
-
 
 const uploadImage =(evt) => {
   const target = evt.target;
@@ -35,5 +31,4 @@ const uploadImage =(evt) => {
   }
 };
 
-avatarChooser.addEventListener('change', uploadImage);
-photoChooser.addEventListener('change', uploadImage);
+export { uploadImage };

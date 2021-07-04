@@ -4,6 +4,7 @@ import { createMarkersGroup, initMap} from './map.js';
 import { getData } from './api.js';
 import { errorPopup, showPopup, successPopup, dataError } from './popup.js';
 import { setFilterFormChange } from './filters.js';
+import './file-upload.js';
 const { disableForms, enableAdForm, enableFilterForm, onAdFormSubmit } = formControl;
 
 disableForms();

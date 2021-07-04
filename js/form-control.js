@@ -5,6 +5,9 @@ const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
 const adAddress = adForm.address;
 const resetFormButton = adForm.querySelector('.ad-form__reset');
+const avatarPreview = document.querySelector('.ad-form-header__preview');
+const avatarPreviewDefault = avatarPreview.querySelector('img').cloneNode(true);
+const phothoPreview = document.querySelector('.ad-form__photo');
 
 const disableForms = () => {
   adForm.classList.add('ad-form--disabled');
@@ -29,6 +32,9 @@ const setAddress = ({ lat, lng }) => {
 
 const resetForms = () => {
   adForm.reset();
+  phothoPreview.textContent ='';
+  avatarPreview.textContent = '';
+  avatarPreview.append(avatarPreviewDefault);
   filterForm.reset();
   onDwellingChange();
 };

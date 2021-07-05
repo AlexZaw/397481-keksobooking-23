@@ -1,8 +1,10 @@
-const debounce =(cb, timer=500) =>{
-  let timerId;
-  return ()=>{
-    clearTimeout(timerId);
-    setTimeout(cb, timer);
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-};
+}
+
 export {debounce};

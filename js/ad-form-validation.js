@@ -78,15 +78,23 @@ const onPriceChange = () => {
 const onDwellingChange = () => {
   adPrice.placeholder = minRentPrice[adDwellingType.value];
   adPrice.min = minRentPrice[adDwellingType.value];
-  onPriceChange();
+  onPriceChange(); //отмечает поле цены ошибкой
 };
 
-const onCapacityChange = (evt) => {
+const checkCapacityInDwelling = () =>{
   const roomsQuantity = Number(adRoomQuantity.value);
   const capacity = Number(adCapacity.value);
-  if (!roomsQuantityToCapacity[roomsQuantity].includes(capacity)) {
-    evt.preventDefault();
-    adCapacity.setCustomValidity('Выберите верное количество гостей или комнат');
+  return roomsQuantityToCapacity[roomsQuantity].includes(capacity);
+};
+
+const showCapacityError = () =>{
+  adCapacity.setCustomValidity('Выберите верное количество гостей или комнат');
+  adCapacity.reportValidity();
+};
+
+const onCapacityChange = () => {
+  if (!checkCapacityInDwelling()) {
+    showCapacityError();
   } else {
     adCapacity.setCustomValidity('');
   }
@@ -111,12 +119,12 @@ const initAdFormValidation = () => {
   adRoomQuantity.addEventListener('change', onCapacityChange);
   adTimeIn.addEventListener('change', onTimeChage);
   adTimeOut.addEventListener('change', onTimeChage);
-
-  adForm.addEventListener('submit', onCapacityChange, { once: true });
 };
+
 const formValidation = {
   initAdFormValidation,
   onDwellingChange,
-  onCapacityChange,
+  checkCapacityInDwelling,
+  showCapacityError,
 };
 export { formValidation };

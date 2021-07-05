@@ -9,24 +9,22 @@ const dataError = document.querySelector('#data-error').content
 
 const isEscKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-const onPopupClick = (popup) => () => {
-  popup.remove();
-};
-
-const onPopupEscKeydown = (popup) => (evt) => {
-  if (isEscKey(evt)) {
+const onClosePopup =(evt) =>{
+  const popup = document.querySelector('.active-popup');
+  if (isEscKey(evt) || evt.type === 'click') {
     popup.remove();
   }
+  document.removeEventListener('keydown', onClosePopup);
 };
 
 const closePopupListener = (popup) => {
-  const closePopup = popup;
-  document.addEventListener('keydown', onPopupEscKeydown(closePopup), { once: true });
-  closePopup.addEventListener('click', onPopupClick(closePopup));
+  document.addEventListener('keydown', onClosePopup);
+  popup.addEventListener('click', onClosePopup);
 };
 
 const showPopup = (popupSample) => () => {
   const popupClone = popupSample.cloneNode(true);
+  popupClone.classList.add('active-popup');
   document.body.insertAdjacentElement('beforeend', popupClone);
   closePopupListener(popupClone);
 };

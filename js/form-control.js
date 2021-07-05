@@ -1,8 +1,8 @@
-import {formValidation} from './ad-form-validation.js';
+import { formValidation } from './ad-form-validation.js';
 import { sendData } from './api.js';
 import { uploadImage } from './file-upload.js';
 import { resetMap } from './map.js';
-const { onCapacityChange, onDwellingChange } = formValidation;
+const { onDwellingChange, checkCapacityInDwelling, showCapacityError } = formValidation;
 
 const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
@@ -49,11 +49,14 @@ const resetForms = () => {
 const onAdFormSubmit = (sendSuccess,sendFailed) =>{
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    onCapacityChange();
-    sendData(
-      sendSuccess,
-      sendFailed,
-      new FormData(evt.target));
+    if(checkCapacityInDwelling()){
+      sendData(
+        sendSuccess,
+        sendFailed,
+        new FormData(evt.target));
+    }else{
+      showCapacityError();
+    }
   });
 };
 

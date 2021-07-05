@@ -19,6 +19,13 @@ const PRICE_RANGE = {
   },
 };
 
+const FILTERS ={
+  TYPE: filterForm['housing-type'],
+  PRICE: filterForm['housing-price'],
+  ROOMS: filterForm['housing-rooms'],
+  GUESTS: filterForm['housing-guests'],
+};
+
 const featuresFilter = (adsArray) => {
   const selectedFeatures = [...featuresInput].filter((input) => input.checked);
   const filtered = adsArray.slice()
@@ -30,12 +37,12 @@ const featuresFilter = (adsArray) => {
 
 const adFilter = (adsArray) => {
   const filtersValue = {
-    type: filterForm['housing-type'].value,
-    price: filterForm['housing-price'].value.toUpperCase(),
-    rooms: Number(filterForm['housing-rooms'].value) ||
-      filterForm['housing-rooms'].value.toLowerCase(),
-    guests: Number(filterForm['housing-guests'].value) ||
-      filterForm['housing-guests'].value.toLowerCase(),
+    type: FILTERS.TYPE.value,
+    price: FILTERS.PRICE.value.toUpperCase(),
+    rooms: Number(FILTERS.ROOMS.value) ||
+      FILTERS.ROOMS.value.toLowerCase(),
+    guests: Number(FILTERS.GUESTS.value) ||
+      FILTERS.GUESTS.value.toLowerCase(),
   };
   const filterKeys = Object.keys(filtersValue);
   const filteredAds = adsArray.slice()

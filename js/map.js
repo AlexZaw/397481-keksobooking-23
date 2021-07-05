@@ -4,6 +4,7 @@ import { formValidation } from './ad-form-validation.js';
 import { mapFilter } from './filters.js';
 const { onDwellingChange } = formValidation;
 const MapOption = {
+  ZOOM: 13,
   DEFAULT_COORDS: {
     lat: 35.675,
     lng: 139.75,
@@ -14,8 +15,16 @@ const MapOption = {
   },
   MARKER: {
     ICON_PATH: './img/',
-    MAIN_IMG: 'main-pin.svg',
-    DEFAULT_IMG: 'pin.svg',
+    MAIN:{
+      ICON_NAME:'main-pin.svg',
+      ICON_SIZE: [52, 52],
+      ICON_ANCHOR: [26, 52],
+    },
+    DEFAULT:{
+      ICON_NAME:'pin.svg',
+      ICON_SIZE: [40, 40],
+      ICON_ANCHOR: [20, 40],
+    },
   },
 };
 
@@ -30,7 +39,7 @@ const initMap = async () => {
       {
         lat: MapOption.DEFAULT_COORDS.lat,
         lng: MapOption.DEFAULT_COORDS.lng,
-      }, 13);
+      }, MapOption.ZOOM);
 };
 
 L.tileLayer(
@@ -42,9 +51,9 @@ L.tileLayer(
 
 const mainMarkerIcon = L.icon(
   {
-    iconUrl: `${MapOption.MARKER.ICON_PATH}${MapOption.MARKER.MAIN_IMG}`,
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconUrl: `${MapOption.MARKER.ICON_PATH}${MapOption.MARKER.MAIN.ICON_NAME}`,
+    iconSize: MapOption.MARKER.MAIN.ICON_SIZE,
+    iconAnchor: MapOption.MARKER.MAIN.ICON_ANCHOR,
   });
 
 const mainMarker = L.marker(
@@ -68,7 +77,7 @@ const resetMap = () => {
     {
       lat: MapOption.DEFAULT_COORDS.lat,
       lng: MapOption.DEFAULT_COORDS.lng,
-    }, 13);
+    }, MapOption.ZOOM);
   mainMarker.setLatLng(
     [MapOption.DEFAULT_COORDS.lat,
       MapOption.DEFAULT_COORDS.lng,
@@ -82,9 +91,9 @@ const createMarker = (currentAd) => {
   const { lat, lng } = currentAd.location;
   const icon = L.icon(
     {
-      iconUrl: `${MapOption.MARKER.ICON_PATH}${MapOption.MARKER.DEFAULT_IMG}`,
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconUrl: `${MapOption.MARKER.ICON_PATH}${MapOption.MARKER.DEFAULT.ICON_NAME}`,
+      iconSize: MapOption.MARKER.DEFAULT.ICON_SIZE,
+      iconAnchor: MapOption.MARKER.DEFAULT.ICON_ANCHOR,
     },
   );
   const marker = L.marker(

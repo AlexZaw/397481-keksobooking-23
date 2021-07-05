@@ -5,21 +5,26 @@ const typeOfDwelling = {
   bungalow: 'Бунгало',
   hotel: 'Отель',
 };
+const FeaturesClasses = {
+  featureClass: 'popup__feature',
+  featureModifier: 'popup__feature--',
+};
+
 const defaultAvatar = './img/avatars/default.png';
 const similarAdTemplate = document.querySelector('#card').content
   .querySelector('.popup');
 
-const createFeaturesFragment = (currentAdObj, featuresList) => {
+const createFeaturesList = (currentAdObj, featuresList) => {
   const adFeatures = currentAdObj.offer.features || [];
-  const adFeaturesFragment = document.createDocumentFragment();
-  adFeatures.forEach((feature) => {
-    const modifier = `--${feature}`;
-    const presentFeature = featuresList.querySelector(`[class$=${modifier}]`);
-    adFeaturesFragment.append(presentFeature);
-  });
   featuresList.textContent = '';
+  adFeatures.forEach((feature) => {
+    const featureElement = document.createElement('li');
+    featureElement.classList.add(FeaturesClasses.featureClass,
+      `${FeaturesClasses.featureModifier}${feature}`);
+    featuresList.append(featureElement);
+  });
 
-  return adFeaturesFragment;
+  return featuresList;
 };
 
 const createPhotosList = (currentAdObj, photosList) => {
@@ -34,6 +39,7 @@ const createPhotosList = (currentAdObj, photosList) => {
 
   return photosList;
 };
+
 const isValue = (value, element) => value || element.remove();
 
 const createAd = (currentAdObj) => {
@@ -67,14 +73,12 @@ const createAd = (currentAdObj) => {
   adTime.textContent =
     `Заезд после ${currentAdObj.offer.checkin}, выезд до ${currentAdObj.offer.checkout}`;
 
-
-  const adFeaturesFragment = createFeaturesFragment(currentAdObj, adFeatures);
-  if (adFeaturesFragment.children.length) {
-    adFeatures.append(adFeaturesFragment);
+  const adFeaturesList = createFeaturesList(currentAdObj, adFeatures);
+  if (adFeaturesList.children.length) {
+    adElement.replaceChild(adFeaturesList,adFeatures);
   } else {
     adFeatures.remove();
   }
-
   const adPhotosList = createPhotosList(currentAdObj, adPhotos);
   if (adPhotosList.children.length) {
     adElement.replaceChild(adPhotosList, adPhotos);

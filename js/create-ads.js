@@ -22,20 +22,18 @@ const createFeaturesFragment = (currentAdObj, featuresList) => {
   return adFeaturesFragment;
 };
 
-const createPhotosFragment = (currentAdObj, photosList) => {
+const createPhotosList = (currentAdObj, photosList) => {
   const currentAdPhotos = currentAdObj.offer.photos || [];
-  const adPhotosFragment = document.createDocumentFragment();
   const photoSample = photosList.querySelector('.popup__photo');
   photosList.textContent = '';
   currentAdPhotos.forEach((path) => {
     const photo = photoSample.cloneNode(true);
     photo.src = path;
-    adPhotosFragment.append(photo);
+    photosList.append(photo);
   });
 
-  return adPhotosFragment;
+  return photosList;
 };
-
 const isValue = (value, element) => value || element.remove();
 
 const createAd = (currentAdObj) => {
@@ -77,12 +75,13 @@ const createAd = (currentAdObj) => {
     adFeatures.remove();
   }
 
-  const adPhotosFragment = createPhotosFragment(currentAdObj, adPhotos);
-  if (adPhotosFragment.children.length) {
-    adPhotos.append(adPhotosFragment);
+  const adPhotosList = createPhotosList(currentAdObj, adPhotos);
+  if (adPhotosList.children.length) {
+    adElement.replaceChild(adPhotosList, adPhotos);
   } else {
     adPhotos.remove();
   }
+
   return adElement;
 };
 

@@ -78,6 +78,7 @@ const onPriceChange = () => {
 const onDwellingChange = () => {
   adPrice.placeholder = minRentPrice[adDwellingType.value];
   adPrice.min = minRentPrice[adDwellingType.value];
+  onPriceChange();
 };
 
 const onCapacityChange = (evt) => {
@@ -93,15 +94,15 @@ const onCapacityChange = (evt) => {
 };
 
 const onTimeChage = (evt) => {
-  if(evt.target === adTimeIn){
+  if (evt.target === adTimeIn) {
     adTimeOut.value = adTimeIn.value;
   }
-  if(evt.target === adTimeOut){
+  if (evt.target === adTimeOut) {
     adTimeIn.value = adTimeOut.value;
   }
 };
 
-const initAdFormValidation = async () => {
+const initAdFormValidation = () => {
   adForm.addEventListener('invalid', markInvalidFormFields, true);
   adTitle.addEventListener('input', onTitleChange);
   adPrice.addEventListener('input', onPriceChange);
@@ -113,5 +114,9 @@ const initAdFormValidation = async () => {
 
   adForm.addEventListener('submit', onCapacityChange, { once: true });
 };
-
-export { initAdFormValidation, onDwellingChange };
+const formValidation = {
+  initAdFormValidation,
+  onDwellingChange,
+  onCapacityChange,
+};
+export { formValidation };

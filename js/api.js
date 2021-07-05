@@ -1,8 +1,8 @@
 import { resetForms } from './form-control.js';
 import { resetMap } from './map.js';
-
+const SERVER_URL = 'https://23.javascript.pages.academy/keksobooking';
 const getData = (onSucces, onFail) => {
-  fetch('https://23.javascript.pages.academy/keksobooking/data')
+  fetch(`${SERVER_URL}/data`)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -14,7 +14,7 @@ const getData = (onSucces, onFail) => {
 };
 
 const sendData = (onSucces, onFail, body) => {
-  fetch('https://23.javascript.pages.academy/keksobooking',
+  fetch(`${SERVER_URL}`,
     {
       method: 'POST',
       body,

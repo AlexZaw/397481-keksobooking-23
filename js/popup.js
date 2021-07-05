@@ -1,5 +1,3 @@
-import { isEscKey } from './utils.js';
-
 const successPopup = document.querySelector('#success').content
   .querySelector('.success');
 
@@ -8,6 +6,8 @@ const errorPopup = document.querySelector('#error').content
 
 const dataError = document.querySelector('#data-error').content
   .querySelector('.data-error');
+
+const isEscKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 const onPopupClick = (popup) => () => {
   popup.remove();

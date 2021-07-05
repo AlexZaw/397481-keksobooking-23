@@ -1,25 +1,25 @@
 import { formControl } from './form-control.js';
-import { initAdFormValidation } from './ad-form-validation.js';
-import { createMarkersGroup, initMap } from './map.js';
+import { formValidation } from './ad-form-validation.js';
+import { createMarkersGroup, initMap} from './map.js';
 import { getData } from './api.js';
 import { errorPopup, showPopup, successPopup, dataError } from './popup.js';
+import { setFilterFormChange } from './filters.js';
 const { disableForms, enableAdForm, enableFilterForm, onAdFormSubmit } = formControl;
-
-const similarAdsQuantity = 10;
-const getSimilarAds = () => () => {
-  getData((adsList) => {
-    createMarkersGroup(adsList.slice(0, similarAdsQuantity));
-  }, showPopup(dataError));
-};
+const {initAdFormValidation} = formValidation;
 
 disableForms();
 
+const getSimilarAds =() => {
+  getData((adsList) => {
+    createMarkersGroup(adsList);
+    enableFilterForm();
+    setFilterFormChange(()=>createMarkersGroup(adsList));
+  }, showPopup(dataError));
+};
+
 initMap()
-  .then(getSimilarAds())
-  .then(enableFilterForm)
-  .catch(showPopup(dataError))
-  .finally(() => {
-    enableAdForm();
-    initAdFormValidation();
-    onAdFormSubmit(showPopup(successPopup),showPopup(errorPopup));
-  });
+  .then(getSimilarAds)
+  .then(enableAdForm)
+  .then(initAdFormValidation)
+  .then(() => {onAdFormSubmit(showPopup(successPopup), showPopup(errorPopup));})
+  .catch(showPopup(dataError));

@@ -1,17 +1,16 @@
 import { setAddress } from './form-control.js';
 import { createAd } from './create-ads.js';
-import { onDwellingChange } from './ad-form-validation.js';
-
+import { formValidation } from './ad-form-validation.js';
+import { mapFilter } from './filters.js';
+const { onDwellingChange } = formValidation;
 const MapOption = {
   DEFAULT_COORDS: {
     lat: 35.675,
     lng: 139.75,
   },
   TILE: {
-    URL: 'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png',
-    ATTR: `&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>,
-    &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy;
-    <a href="http://openstreetmap.org">OpenStreetMap</a> contributors`,
+    URL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    ATTR: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
   MARKER: {
     ICON_PATH: './img/',
@@ -19,10 +18,10 @@ const MapOption = {
     DEFAULT_IMG: 'pin.svg',
   },
 };
+
 const map = L.map('map-canvas');
 
 const initMap = async () => {
-  // return Promise.reject();
   map.on('load', () => {
     setAddress(MapOption.DEFAULT_COORDS);
     onDwellingChange();
@@ -59,7 +58,6 @@ const mainMarker = L.marker(
     autoPan: true,
   },
 );
-
 mainMarker.addTo(map);
 mainMarker.on('move', (evt) => {
   setAddress(evt.target.getLatLng());
@@ -98,14 +96,17 @@ const createMarker = (currentAd) => {
       icon,
     },
   );
-
   marker.addTo(markerGroup)
     .bindPopup(createAd(currentAd));
 };
 
 const createMarkersGroup = (similarAds) => {
-  similarAds.forEach((currentAd) => {
+  markerGroup.clearLayers();
+  const filteredAds = mapFilter(similarAds);
+  filteredAds.forEach((currentAd) => {
     createMarker(currentAd);
   });
 };
-export { initMap, resetMap, createMarkersGroup };
+
+export { initMap, resetMap, createMarkersGroup};
+

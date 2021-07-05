@@ -78,7 +78,6 @@ const onPriceChange = () => {
 const onDwellingChange = () => {
   adPrice.placeholder = minRentPrice[adDwellingType.value];
   adPrice.min = minRentPrice[adDwellingType.value];
-  onPriceChange(); //отмечает поле цены ошибкой
 };
 
 const checkCapacityInDwelling = () =>{
@@ -119,6 +118,8 @@ const initAdFormValidation = () => {
   adRoomQuantity.addEventListener('change', onCapacityChange);
   adTimeIn.addEventListener('change', onTimeChage);
   adTimeOut.addEventListener('change', onTimeChage);
+  adDwellingType.addEventListener('change', onPriceChange);
+
 };
 
 const formValidation = {

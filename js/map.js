@@ -3,6 +3,7 @@ import { createAd } from './create-ads.js';
 import { formValidation } from './ad-form-validation.js';
 import { mapFilter } from './filters.js';
 const { onDwellingChange } = formValidation;
+let allAdsData = [];
 const MapOption = {
   ZOOM: 13,
   DEFAULT_COORDS: {
@@ -72,19 +73,6 @@ mainMarker.on('move', (evt) => {
   setAddress(evt.target.getLatLng());
 });
 
-const resetMap = () => {
-  map.setView(
-    {
-      lat: MapOption.DEFAULT_COORDS.lat,
-      lng: MapOption.DEFAULT_COORDS.lng,
-    }, MapOption.ZOOM);
-  mainMarker.setLatLng(
-    [MapOption.DEFAULT_COORDS.lat,
-      MapOption.DEFAULT_COORDS.lng,
-    ]);
-  setAddress(MapOption.DEFAULT_COORDS);
-};
-
 const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (currentAd) => {
@@ -117,5 +105,22 @@ const createMarkersGroup = (similarAds) => {
   });
 };
 
-export { initMap, resetMap, createMarkersGroup};
+const saveAdsData = (adsList) =>{
+  allAdsData = adsList.slice();
+};
 
+const resetMap = () => {
+  map.setView(
+    {
+      lat: MapOption.DEFAULT_COORDS.lat,
+      lng: MapOption.DEFAULT_COORDS.lng,
+    }, MapOption.ZOOM);
+  mainMarker.setLatLng(
+    [MapOption.DEFAULT_COORDS.lat,
+      MapOption.DEFAULT_COORDS.lng,
+    ]);
+  setAddress(MapOption.DEFAULT_COORDS);
+  createMarkersGroup(allAdsData);
+};
+
+export { initMap, resetMap, createMarkersGroup, saveAdsData};

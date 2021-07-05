@@ -1,6 +1,6 @@
 import { formControl } from './form-control.js';
 import { formValidation } from './ad-form-validation.js';
-import { createMarkersGroup, initMap} from './map.js';
+import { createMarkersGroup, initMap, saveAdsData} from './map.js';
 import { getData } from './api.js';
 import { errorPopup, showPopup, successPopup, dataError } from './popup.js';
 import { setFilterFormChange } from './filters.js';
@@ -11,6 +11,7 @@ disableForms();
 
 const getSimilarAds =() => {
   getData((adsList) => {
+    saveAdsData(adsList);
     createMarkersGroup(adsList);
     enableFilterForm();
     setFilterFormChange(()=>createMarkersGroup(adsList));

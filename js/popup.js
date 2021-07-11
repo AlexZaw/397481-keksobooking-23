@@ -13,8 +13,8 @@ const onClosePopup =(evt) =>{
   const popup = document.querySelector('.active-popup');
   if (isEscKey(evt) || evt.type === 'click') {
     popup.remove();
+    document.removeEventListener('keydown', onClosePopup);
   }
-  document.removeEventListener('keydown', onClosePopup);
 };
 
 const closePopupListener = (popup) => {

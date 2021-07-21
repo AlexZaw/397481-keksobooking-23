@@ -100,7 +100,7 @@ const onCapacityChange = () => {
   adCapacity.reportValidity() && unMarkInvalidFormFields();
 };
 
-const onTimeChage = (evt) => {
+const onTimeChange = (evt) => {
   if (evt.target === adTimeIn) {
     adTimeOut.value = adTimeIn.value;
   }
@@ -116,8 +116,8 @@ const initAdFormValidation = () => {
   adDwellingType.addEventListener('change', onDwellingChange);
   adCapacity.addEventListener('change', onCapacityChange);
   adRoomQuantity.addEventListener('change', onCapacityChange);
-  adTimeIn.addEventListener('change', onTimeChage);
-  adTimeOut.addEventListener('change', onTimeChage);
+  adTimeIn.addEventListener('change', onTimeChange);
+  adTimeOut.addEventListener('change', onTimeChange);
   adDwellingType.addEventListener('change', onPriceChange);
 
 };
